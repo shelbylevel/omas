@@ -9,19 +9,48 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r reading-laborforce-data, eval=FALSE}
 library(tidyverse)
 
 list.files(
   path = "data/labor force cty/",
-  pattern = '\\.txt', 
+  pattern = '\\.xlsx', 
   full.names = TRUE
   ) -> filenames 
 
 purrr::map_df(
   filenames, 
-  read.delim, 
+  readxl::read_excel, 
   .id = 'laucnty'
   ) -> df
+
+df[, 1:11] -> df2
+df2$...6 = NULL 
+
+df[6:106450, 1:11] %>%
+  rename(
+    file = laucnty, 
+    laus.code = `Labor Force Data by County, 2000 Annual Averages`,
+    state.fips = ...2, 
+    county.fips = ...3,
+    name = ...4,
+    year = ...5,
+    labor.force = ...7,
+    employed = ...8,
+    unemployed = ...9,
+    unemployment.rate = ...10
+    ) -> lf
+
+lf$...6 = NULL
+lf %>%
+  filter(year != 'Year') -> labor_force
+
+save(labor_force, file = "data/labor force cty/labor_force.rdata")
+```
+
+```{r}
+load("data/labor force cty/labor_force.rdata")
+
+labor_force %>% filter(state.fips == 39) -> ohio
 ```
 
