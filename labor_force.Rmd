@@ -1,0 +1,27 @@
+---
+title: "Labor Force"
+author: "Shelby Level"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+
+list.files(
+  path = "data/labor force cty/",
+  pattern = '\\.txt', 
+  full.names = TRUE
+  ) -> filenames 
+
+purrr::map_df(
+  filenames, 
+  read.delim, 
+  .id = 'laucnty'
+  ) -> df
+```
+

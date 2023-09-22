@@ -1,0 +1,1185 @@
+---
+title: "OMAS Dashboard Adult Indicators"
+output: html_document
+date: "2023-08-28"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+
+list.files(
+  path = "data/adult/",
+  pattern = '\\.csv', 
+  full.names = TRUE
+  ) -> filenames 
+
+purrr::map_df(
+  filenames, 
+  read.csv, 
+  .id = 'omas-dashboard-file'
+  ) -> df_adults
+```
+
+clipr::write_clip(df_adults)
+
+```{r}
+
+library(tidyverse)
+
+read.csv("data/adult/OMAS Dashboard.csv") -> df01
+read.csv("data/adult/OMAS Dashboard (1).csv") -> df02
+read.csv("data/adult/OMAS Dashboard (2).csv") -> df03
+read.csv("data/adult/OMAS Dashboard (3).csv") -> df04
+read.csv("data/adult/OMAS Dashboard (4).csv") -> df05
+read.csv("data/adult/OMAS Dashboard (5).csv") -> df06
+read.csv("data/adult/OMAS Dashboard (6).csv") -> df07
+read.csv("data/adult/OMAS Dashboard (7).csv") -> df08
+read.csv("data/adult/OMAS Dashboard (8).csv") -> df09
+read.csv("data/adult/OMAS Dashboard (9).csv") -> df10
+read.csv("data/adult/OMAS Dashboard (10).csv") -> df11
+read.csv("data/adult/OMAS Dashboard (11).csv") -> df12
+read.csv("data/adult/OMAS Dashboard (12).csv") -> df13
+read.csv("data/adult/OMAS Dashboard (13).csv") -> df14
+read.csv("data/adult/OMAS Dashboard (14).csv") -> df15
+read.csv("data/adult/OMAS Dashboard (15).csv") -> df16
+read.csv("data/adult/OMAS Dashboard (16).csv") -> df17
+read.csv("data/adult/OMAS Dashboard (17).csv") -> df18
+read.csv("data/adult/OMAS Dashboard (18).csv") -> df19
+read.csv("data/adult/OMAS Dashboard (19).csv") -> df20
+read.csv("data/adult/OMAS Dashboard (20).csv") -> df21
+read.csv("data/adult/OMAS Dashboard (21).csv") -> df22
+read.csv("data/adult/OMAS Dashboard (22).csv") -> df23
+read.csv("data/adult/OMAS Dashboard (23).csv") -> df24
+read.csv("data/adult/OMAS Dashboard (24).csv") -> df25
+read.csv("data/adult/OMAS Dashboard (25).csv") -> df26
+read.csv("data/adult/OMAS Dashboard (26).csv") -> df27
+read.csv("data/adult/OMAS Dashboard (27).csv") -> df28
+read.csv("data/adult/OMAS Dashboard (28).csv") -> df29
+read.csv("data/adult/OMAS Dashboard (29).csv") -> df30
+read.csv("data/adult/OMAS Dashboard (30).csv") -> df31
+read.csv("data/adult/OMAS Dashboard (31).csv") -> df32
+read.csv("data/adult/OMAS Dashboard (32).csv") -> df33
+read.csv("data/adult/OMAS Dashboard (33).csv") -> df34
+read.csv("data/adult/OMAS Dashboard (34).csv") -> df35
+read.csv("data/adult/OMAS Dashboard (35).csv") -> df36
+read.csv("data/adult/OMAS Dashboard (36).csv") -> df37
+read.csv("data/adult/OMAS Dashboard (37).csv") -> df38
+read.csv("data/adult/OMAS Dashboard (38).csv") -> df39
+read.csv("data/adult/OMAS Dashboard (39).csv") -> df40
+read.csv("data/adult/OMAS Dashboard (40).csv") -> df41
+read.csv("data/adult/OMAS Dashboard (41).csv") -> df42
+read.csv("data/adult/OMAS Dashboard (42).csv") -> df43
+read.csv("data/adult/OMAS Dashboard (43).csv") -> df44
+read.csv("data/adult/OMAS Dashboard (44).csv") -> df45
+read.csv("data/adult/OMAS Dashboard (45).csv") -> df46
+read.csv("data/adult/OMAS Dashboard (46).csv") -> df47
+read.csv("data/adult/OMAS Dashboard (47).csv") -> df48
+read.csv("data/adult/OMAS Dashboard (48).csv") -> df49
+read.csv("data/adult/OMAS Dashboard (49).csv") -> df50
+read.csv("data/adult/OMAS Dashboard (50).csv") -> df51
+read.csv("data/adult/OMAS Dashboard (51).csv") -> df52
+read.csv("data/adult/OMAS Dashboard (52).csv") -> df53
+read.csv("data/adult/OMAS Dashboard (53).csv") -> df54
+read.csv("data/adult/OMAS Dashboard (54).csv") -> df55
+read.csv("data/adult/OMAS Dashboard (55).csv") -> df56
+read.csv("data/adult/OMAS Dashboard (56).csv") -> df57
+read.csv("data/adult/OMAS Dashboard (57).csv") -> df58
+read.csv("data/adult/OMAS Dashboard (58).csv") -> df59
+read.csv("data/adult/OMAS Dashboard (59).csv") -> df60
+read.csv("data/adult/OMAS Dashboard (60).csv") -> df61
+read.csv("data/adult/OMAS Dashboard (61).csv") -> df62
+read.csv("data/adult/OMAS Dashboard (62).csv") -> df63
+read.csv("data/adult/OMAS Dashboard (63).csv") -> df64
+
+df_list = mget(ls(pattern = "df[01-64]"))
+Map(cbind,df_list, ID = (1:length(df_list))) -> df_list
+
+#df1 %>%
+  bind_rows(df_list) -> df_adults
+  
+```
+
+```{r}
+
+df_adults %>%
+  count(Survey.Indicator) 
+
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Usual Source of Care") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Usual Source of Care') +
+  theme(legend.position = "bottom")
+```
+
+```{r} 
+df_adults %>%
+  filter(`Survey.Indicator` == "Avoided or Delayed Health Care") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Avoided or Delayed Health Care") +
+  theme(legend.position = "bottom")
+
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Avoided or Delayed Health Care (Cost)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Avoided or Delayed Health Care (Cost)") +
+  theme(legend.position = "bottom")
+
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Avoided or Delayed Health Care (Provider Unavailable)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Avoided or Delayed Health Care (Provider Unavailable)") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Avoided or Delayed Health Care (No Provider Found)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Avoided or Delayed Health Care (No Provider Found)") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Avoided or Delayed Health Care (Transportation)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Avoided or Delayed Health Care (Transporation)") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "0 Visits" | `Survey.Indicator` == "1 Visit" | `Survey.Indicator` == "2 Visits" | `Survey.Indicator` == "3 or More Visits") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Number of ER Visits (Past 12 Months)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Visited ER 3 or More Times (Past 12 Months)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Visited ER 3 or More Times (Past 12 Months)") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "No Usual Source of Care" | `Survey.Indicator` == "Doctor's Office or Health Center" | `Survey.Indicator` == "Hospital ER" | `Survey.Indicator` == "Urgent Care Center" | `Survey.Indicator` == "Clinic in a Pharmacy or Grocery Store" | `Survey.Indicator` == "Some Other Place") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Place of Usual Source of Care") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "White or Other" | `Survey.Indicator` == "Black" | `Survey.Indicator` == "Hispanic" | `Survey.Indicator` == "Asian") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 10) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Race/Ethnicity") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Male" | `Survey.Indicator` == "Female") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Gender") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "0-75% FPL" | `Survey.Indicator` == "75-100% FPL" | `Survey.Indicator` == "100-138% FPL" | `Survey.Indicator` == "138-206% FPL" | `Survey.Indicator` == "206-250% FPL" | `Survey.Indicator` == "250-400% FPL" | `Survey.Indicator` == "400% or more FPL") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Income Group") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Married" | `Survey.Indicator` == "Divorced or Separated" | `Survey.Indicator` == "Widowed" | `Survey.Indicator` == "Never Married" | `Survey.Indicator` == "Unmarried Couple") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Marital Status") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "1 adult, 0 kids" | `Survey.Indicator` == "1 adult, 1+ kid" | `Survey.Indicator` == "2+ adults, 0 kids" | `Survey.Indicator` == "2+ adults, 1+ kid") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Family Composition") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Up to high school but no diploma" | `Survey.Indicator` == "High school graduate or equivalent" | `Survey.Indicator` == "Some college" | `Survey.Indicator` == "NAssociate Degree" | `Survey.Indicator` == "4-yr college graduate" | `Survey.Indicator` == "Advanced Degree") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Education Level") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "White" | `Survey.Indicator` == "Black" | `Survey.Indicator` == "Hispanic" | `Survey.Indicator` == "Asian" | `Survey.Indicator` == "Other") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 16) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Race/Ethnicity (5-level)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "19-24" | `Survey.Indicator` == "25-34" | `Survey.Indicator` == "35-44" | `Survey.Indicator` == "45-54" | `Survey.Indicator` == "55-64" | `Survey.Indicator` == "65-74" | `Survey.Indicator` == "75+") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Age Group") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Retired") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Retired") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Working" | `Survey.Indicator` == "Not Working") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 19) %>% 
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Employment Status") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Working" | `Survey.Indicator` == "Not Working, Looking" | `Survey.Indicator` == "Not Working, Not Looking" | `Survey.Indicator` == "Not Working, Unknown if Looking") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 20) %>% 
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Employment and Work-Seeking Status") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Disability (2019 - 2021)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Disability (2019 - 2021)") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Self-care Difficulty") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Self-care Difficulty") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Independent Living Difficulty") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Independent Living Difficulty") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Hearing Difficulty") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Hearing Difficulty") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Cognitive Difficulty") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Cognitive Difficulty") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Vision Difficulty") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Vision Difficulty") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Ambulatory Difficulty") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Ambulatory Difficulty") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Has a Developmental Disability") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Has a Developmental Disability") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Problems Paying Medical Bills") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Problems Paying Medical Bills") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Paying Rent or Mortgage") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Hard to Pay Rent or Mortgage") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Smoking") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Smoking") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Never" | `Survey.Indicator` == "Every day or some days" | `Survey.Indicator` == "Rarely or former") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "E-Cigarettes and Vaping Status") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Marijuana Use") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Marijuana Use in the Past 30 Days") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Alcohol") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Consumed Alcohol During the Past Month") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Binge Drinking") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Binge Drinking During Past Month") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Healthy BMI") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Healthy BMI") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Overweight BMI") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Overweight BMI") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Obese BMI") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Obese BMI") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "No Doctor's Visit (Past 12 Months)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "No Doctor's Visit (Past 12 Months)") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "No Routine Doctor's Visit (Past 12 Months)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "No Routine Doctor's Visit (Past 12 Months)") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Poor/Fair Overall Health") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Poor/Fair Overall Health") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Underweight" | `Survey.Indicator` == "Healthy" | `Survey.Indicator` == "Overweight" | `Survey.Indicator` == "Obese") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "BMI All Categories") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Yes" | `Survey.Indicator` == "No" | `Survey.Indicator` == "Borderline") %>% 
+  filter(Survey.Year == 2021) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Ever Diagnosed with Diabetes") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "14+ Mentally Distressed Days") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "14+ Mentally Distressed Days During Past Month") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Hypertension") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Hypertension") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Potentially Disabling Mental Health Condition") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Potentially Disabling Mental Health Condition") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Any Preganancy (Past 12 Months)") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Any Preganancy (Past 12 Months) Ages 19-44") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Currently Pregnant") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Currently Pregnant Ages 19-44") +
+  theme(legend.position = "bottom")
+
+#Error: Plot not showing Appalachian 2021 data. Please check it out
+
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Employer-Sponsored" | `Survey.Indicator` == "Medicaid" | `Survey.Indicator` == "Medicare Only" | `Survey.Indicator` == "Other Insured" | `Survey.Indicator` == "Uninsured") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 49) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Insurance Type") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Employer-Sponsored") %>%
+  filter(ID == 50) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Employer-Sponsored Insurance") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Private") %>%
+  filter(ID == 51) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Private Insurance") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Medicaid") %>%
+  filter(ID == 52) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Medicaid") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Medicare (no Medicaid)") %>%
+  filter(ID == 53) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Medicare (no Medicaid)") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Uninsured") %>%
+  filter(ID == 54) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Uninsured") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Dual Coverage, Medicaid and Medicare") %>%
+  filter(ID == 55) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Dual Coverage, Medicaid and Medicare") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Insured" | `Survey.Indicator` == "Uninsured") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 56) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Insured Adults") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Employer-Sponsored" | `Survey.Indicator` == "Medicaid" | `Survey.Indicator` == "Other Insured" | `Survey.Indicator` == "Uninsured") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 57) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Insurance Type (4-levels)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Employer-Sponsored" | `Survey.Indicator` == "Medicaid Only" | `Survey.Indicator` == "Dual, Medicaid and Medicare" | `Survey.Indicator` == "Medicare Only" | `Survey.Indicator` == "Other Insured" | `Survey.Indicator` == "Uninsured") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 58) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Insurance Type (6-levels)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Loneliness") %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = "Loneliness") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Did not need care" | `Survey.Indicator` == "Received needed care" | `Survey.Indicator` == "Did not receive needed care") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 60) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Unable to Get Alcohol or Other Drug Treatment (Past 12 Months)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Did not need care" | `Survey.Indicator` == "Received needed care" | `Survey.Indicator` == "Did not receive needed care") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 61) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Unmet Dental Health Care Needs (Past 12 Months)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Did not need care" | `Survey.Indicator` == "Received needed care" | `Survey.Indicator` == "Did not receive needed care") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 62) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Unmet Mental Health Care Needs (Past 12 Months)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Did not need care" | `Survey.Indicator` == "Received needed care" | `Survey.Indicator` == "Did not receive needed care") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 63) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Unmet Other Health Care Needs (Past 12 Months)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_adults %>%
+  filter(`Survey.Indicator` == "Did not need care" | `Survey.Indicator` == "Received needed care" | `Survey.Indicator` == "Did not receive needed care") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(ID == 64) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Unmet Vision Care Needs (Past 12 Months)") + 
+  theme(legend.position = "bottom") 
+```

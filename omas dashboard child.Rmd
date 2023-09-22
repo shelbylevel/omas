@@ -1,0 +1,664 @@
+---
+title: "OMAS Dashboard Child Indicators"
+author: "Shelby Level"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+
+list.files(
+  path = "data/child/",
+  pattern = '\\.csv', 
+  full.names = TRUE
+  ) -> filenames 
+
+purrr::map_df(
+  filenames, 
+  read.csv, 
+  .id = 'omas-dashboard-file'
+  ) -> df_child
+```
+
+clipr::write_clip(df_child)
+
+```{r}
+df_child %>%
+  filter(`Survey.Indicator` == "Usual Source of Care") %>%
+  filter(`omas-dashboard-file` == 1) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Usual Source of Care') +
+  theme(legend.position = "bottom")
+```
+
+
+```{r}
+df_child %>%
+  filter(`Survey.Indicator` == "No Usual Source of Care" | `Survey.Indicator` == "Doctor's Office or Health Center" | `Survey.Indicator` == "Hospital ER" | `Survey.Indicator` == "Urgent Care Center" | `Survey.Indicator` == "Clinic in a Pharmacy or Grocery Store" | `Survey.Indicator` == "Some Other Place") %>% 
+  filter(Survey.Year == 2021) %>%
+  filter(`omas-dashboard-file` == 2) %>%
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Place of Usual Source of Care") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 3) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Total ACE Score") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 4) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = '3 or More ACES') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 5) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = '4 or More ACES') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 6) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'ACES: Divorce') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 7) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'ACES: Death') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 8) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'ACES: Jail') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 9) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'ACES: Hit/Kick/Slap') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 10) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'ACES: Violence in the Neighborhood') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 11) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'ACES: Mental Health') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 12) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'ACES: Alcohol/Drugs') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 13) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'ACES: Race/Ethnicity') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 14) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Gender") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 15) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Income Group") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 16) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Race/Ethnicity") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 17) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Age Group") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 18) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'At Least One of Childs Parents is Employed') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 19) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Weekly Screen Time") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 20) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Well Child Visit') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 21) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Dental Visit') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 22) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Poor/Fair Overall Health') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 23) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Asthma Ever') +
+  theme(legend.position = "bottom")
+
+# 2012 data is not showing up on plot (data exists I checked) ?
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 24) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "BMI Category") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 25) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Healthy BMI') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 26) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Overweight BMI') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 27) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Obese BMI') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 28) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Medication Other Than Vitamins') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 29) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Special Therapy') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 30) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Treatment or Counseling') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 31) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Functional Mental Health Impairment') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 32) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Insurance Type") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 33) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Employer-Sponsored') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 34) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Medicaid') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 35) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Uninsured') +
+  theme(legend.position = "bottom")
+
+# 2012 data not showing up on plot
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 36) %>%
+  ggplot() +
+  geom_line(
+    aes(
+      x = `Survey.Year`,
+      y = `Estimated.Percentage`,
+      group = Stratification,
+      color = Stratification
+    )
+  ) +
+  labs(title = 'Other Insurance') +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 37) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Unmet Dental Health Care Needs (Past 12 Months)") + 
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+df_child %>%
+  filter(`omas-dashboard-file` == 38) %>%
+  filter(Survey.Year == 2021) %>%
+  
+  ggplot() +
+  geom_col(
+    aes(
+      x = Survey.Indicator,
+      y = `Estimated.Percentage`,
+      fill = Stratification
+    ),
+    position = "dodge"
+  ) +
+  labs(title = "Unmet Mental Health Care Needs (Past 12 Months)") + 
+  theme(legend.position = "bottom") 
+```
